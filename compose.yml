@@ -1,0 +1,17 @@
+services:
+  backend:
+    build: .
+    command: npm run dev
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - 4000:4000
+    env_file: ".env"
+
+  database:
+    image: mongo:4.4
+    env_file: ".env"
+    volumes:
+      - mongo-db:/data/db
+volumes:
+  mongo-db:
