@@ -1,13 +1,18 @@
-import express from "express";
 import "dotenv/config";
-
-const app = express();
+import { database } from "./config";
+import app from "./app";
 const { APP_PORT: PORT = 3000 } = process.env;
 
-app.get("/", (request, response) => {
-  response.send("<h1>Server is ready with docker</h1>");
-});
+const main = async () => {
+  try {
+    await database.connectDB();
+  } catch (error) {
+    console.log(error);
+  } finally {
+    app.listen(PORT, () => {
+      console.log(`Server is ready at http://localhost:${PORT}`);
+    });
+  }
+};
 
-app.listen(PORT, () => {
-  console.log(`Server is ready at http://localhost:${PORT}`);
-});
+main();
