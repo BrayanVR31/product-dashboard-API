@@ -1,9 +1,8 @@
 import express from "express";
+import { api } from "./routes";
 
 const app = express();
 
-app.get("/", (request, response) => {
-  response.send("<h1>Server is ready with docker</h1>");
-});
+app.use(api);
 
 export default app;
