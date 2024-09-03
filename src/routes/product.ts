@@ -1,26 +1,27 @@
-import { Router, Request } from "express";
+import { Router } from "express";
+import { admin } from "../controllers";
+import { productSchema } from "../schemas";
+import { validationMiddleware } from "../middlewares";
 
 const router = Router();
 const prefix = "/products";
 
-router.get(`${prefix}`, (request, response) => {
-  response.send("Get all products");
-});
+router.get(`${prefix}`, admin.product.home);
 
-router.get(`${prefix}/:id`, (request, response) => {
-  response.send(`Get product with id: ${request.params.id}`);
-});
+router.get(`${prefix}/:id`, admin.product.edit);
 
-router.post(`${prefix}`, (request, response) => {
-  response.send("Created new product");
-});
+router.post(
+  `${prefix}`,
+  validationMiddleware.validate(productSchema.Schema),
+  admin.product.save
+);
 
-router.put(`${prefix}/:id`, (request, response) => {
-  response.send(`Updated product with id: ${request.params.id}`);
-});
+router.patch(
+  `${prefix}/:id`,
+  validationMiddleware.validate(productSchema.PartialSchema),
+  admin.product.update
+);
 
-router.delete(`${prefix}/:id`, (request, response) => {
-  response.send(`Deleted product with id: ${request.params.id}`);
-});
+router.delete(`${prefix}/:id`, admin.product.destroy);
 
 export default router;

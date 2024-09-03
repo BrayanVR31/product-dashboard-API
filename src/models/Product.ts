@@ -1,7 +1,7 @@
-import { Schema, SchemaTypes, model } from "mongoose";
+import mongoose, { Schema, SchemaTypes } from "mongoose";
 
 // Types
-interface ProductType {
+export class ClassName {
   name: string;
   description: string;
   type: string;
@@ -15,7 +15,7 @@ interface ProductType {
 }
 
 // Schema
-const schema = new Schema<ProductType>(
+const schema = new Schema<ClassName>(
   {
     name: {
       type: SchemaTypes.String,
@@ -70,6 +70,7 @@ const schema = new Schema<ProductType>(
 );
 
 // Model
-const Product = model<ProductType>("Product", schema);
-
-export default Product;
+export const Model: mongoose.Model<ClassName> = mongoose.model(
+  "Product",
+  schema
+);
